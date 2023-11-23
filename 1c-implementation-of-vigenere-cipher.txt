@@ -1,0 +1,70 @@
+import java.util.Scanner;
+
+public class HelloWorld {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter the plain text:");
+        String plain = sc.nextLine();
+        System.out.println();
+
+        System.out.println("Enter the Key");
+        String key = sc.nextLine();
+        System.out.println();
+
+        int ascii = 0;
+        String result = "";
+
+        for (int i = 0; i < key.length(); i++) {
+            char c = key.charAt(i);
+            char plainChar = plain.charAt(i);
+
+            if (Character.isUpperCase(c)) {
+                ascii = 65;
+            } else {
+                ascii = 97;
+            }
+
+            int diff = ((int) c - ascii);
+            int plainAns = ((int) plainChar - ascii);
+
+            char ch = (char)(((plainAns + diff) % 26) + ascii);
+            result = result + ch;
+        }
+
+        System.out.println("Encrypted text: " + result);
+        System.out.println();
+        System.out.println("__________________Decryption starts___________________");
+        System.out.println();
+        System.out.println("Key: " + key);
+
+        plain = result;
+        result = "";
+
+        for (int i = 0; i < key.length(); i++) {
+            char c = key.charAt(i);
+            char plainChar = plain.charAt(i);
+
+            if (Character.isUpperCase(c)) {
+                ascii = 65;
+            } else {
+                ascii = 97;
+            }
+
+            int diff = ((int) c - ascii);
+            int plainAns = ((int) plainChar - ascii);
+            int decrypted = (plainAns - diff) % 26;
+
+            if (decrypted < 0) {
+                decrypted = 26 - Math.abs(decrypted);
+            }
+
+            char ch = (char)(decrypted + ascii);
+            result = result + ch;
+        }
+
+        System.out.println();
+        System.out.print("Decrypted text: " + result);
+    }
+}
