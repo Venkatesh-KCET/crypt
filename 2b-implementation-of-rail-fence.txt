@@ -1,0 +1,61 @@
+public class RailFenceCipher {
+
+    public static String encrypt(String plaintext, int key) {
+        if (key < 2) {
+            return plaintext;
+        }
+
+        StringBuilder ciphertext = new StringBuilder();
+
+        for (int row = 0; row < key; row++) {
+            for (int i = row; i < plaintext.length(); i += 2 * (key - 1)) {
+                ciphertext.append(plaintext.charAt(i));
+
+                if (row > 0 && row < key - 1) {
+                    int j = i + 2 * (key - row - 1);
+                    if (j < plaintext.length()) {
+                        ciphertext.append(plaintext.charAt(j));
+                    }
+                }
+            }
+        }
+
+        return ciphertext.toString();
+    }
+
+    public static String decrypt(String ciphertext, int key) {
+        if (key < 2) {
+            return ciphertext;
+        }
+
+        char[] plaintext = new char[ciphertext.length()];
+        int index = 0;
+        int step = 2 * (key - 1);
+
+        for (int row = 0; row < key; row++) {
+            for (int i = row; i < ciphertext.length(); i += step) {
+                plaintext[i] = ciphertext.charAt(index++);
+
+                if (row > 0 && row < key - 1) {
+                    int j = i + step - 2 * row;
+                    if (j < ciphertext.length()) {
+                        plaintext[j] = ciphertext.charAt(index++);
+                    }
+                }
+            }
+        }
+
+        return new String(plaintext);
+    }
+
+    public static void main(String[] args) {
+        String plaintext = "Welcome to java";
+        int key = 2;
+
+        String encrypted = encrypt(plaintext, key);
+        System.out.println("Encrypted: " + encrypted);
+
+        String decrypted = decrypt(encrypted, key);
+        System.out.println("Decrypted: " + decrypted);
+    }
+}
