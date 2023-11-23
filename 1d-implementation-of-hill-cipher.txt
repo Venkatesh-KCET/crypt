@@ -1,0 +1,57 @@
+import java.util.*;
+
+public class MyClass {
+    public static String res = "";
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter the number of rows and columns : ");
+        int row = sc.nextInt();
+        int col = sc.nextInt();
+        int a[][] = new int[row][col];
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                a[i][j] = sc.nextInt();
+            }
+        }
+
+        sc.nextLine();  // consume newline character
+        System.out.println();
+        System.out.print("Enter the input string : ");
+        String s = sc.nextLine();
+
+        for (int i = 0; i < s.length(); i = i + row) {
+            String ss = s.substring(i, i + row);
+            cal(ss, a, row, col);
+        }
+
+        System.out.println();
+        System.out.println("Encrypted Text: " + res);
+    }
+
+    public static void cal(String s, int a[][], int row, int col) {
+        int x = 0;
+        String answer = "";
+        int ans = 0;
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                int num = ((int)(s.charAt(x))) - 96 - 1;
+                ans += num * a[j][i];
+                x++;
+            }
+
+            int d = ans % 26;
+            char ch = (char)(d + 97);
+            answer += ch;
+            ans = 0;
+            x = 0;
+        }
+
+        System.out.println();
+        System.out.print(s + " ---> " + answer);
+        res += answer;
+    }
+}
