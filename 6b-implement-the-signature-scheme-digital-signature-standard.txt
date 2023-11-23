@@ -1,0 +1,45 @@
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.util.Base64;
+import java.util.Scanner;
+
+public class RSASignatureExample {
+
+    public static void main(String args[]) throws Exception {
+        KeyPair keyPair = generateKeyPair();
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the message: ");
+        String message = sc.nextLine();
+
+        byte[] signature = sign(message, keyPair.getPrivate());
+        boolean isVerified = verify(message, signature, keyPair.getPublic());
+
+        System.out.println("Original Message: " + message);
+        System.out.println("Signature: " + Base64.getEncoder().encodeToString(signature));
+        System.out.println("Signature Verified: " + isVerified);
+    }
+
+    public static KeyPair generateKeyPair() throws Exception {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(2048); // Choose key size (2048 bits is a common choice)
+        return keyPairGenerator.generateKeyPair();
+    }
+
+    public static byte[] sign(String message, PrivateKey privateKey) throws Exception {
+        Signature signature = Signature.getInstance("SHA256withRSA");
+        signature.initSign(privateKey);
+        signature.update(message.getBytes());
+        return signature.sign();
+    }
+
+    public static boolean verify(String message, byte[] signature, PublicKey publicKey) throws Exception {
+        Signature sig = Signature.getInstance("SHA256withRSA");
+        sig.initVerify(publicKey);
+        sig.update(message.getBytes());
+        return sig.verify(signature);
+    }
+}
