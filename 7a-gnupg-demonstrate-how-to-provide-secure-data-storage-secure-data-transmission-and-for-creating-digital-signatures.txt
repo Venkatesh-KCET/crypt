@@ -1,0 +1,9 @@
+gpg --full-generate-key
+gpg --armor --export crypt > pubb.asc
+gpg --armor --export-secret-keys crypt > privb.asc
+type nul>hello.txt
+hello.txt
+gpg -e -r crypt helloo.txt
+gpg -s helloo.txt.gpg
+gpg -d helloo.txt.gpg
+gpg --verify helloo.txt.gpg
