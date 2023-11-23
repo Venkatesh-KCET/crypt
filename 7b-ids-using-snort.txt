@@ -1,0 +1,9 @@
+cd /etc/snort/
+snort -v -i eth0
+snort -d -v -i eth0
+snort -d -v -e -i eth0
+snort -dev -i eth0
+snort -dev -i eth0 -l log
+snort -dev -i eth0 -l log -h 10.10.20.4/24
+snort -dev -i eth0 -l log -c rules
+snort -dev -i eth0 -l log -h 10.10.20.4/24 -c rules
