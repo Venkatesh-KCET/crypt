@@ -1,0 +1,51 @@
+import java.util.Scanner;
+
+public class HelloWorld {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the data you want to encrypt:");
+        String s = sc.nextLine();
+        System.out.println("Enter the Key");
+        int key = sc.nextInt();
+        String result = encrypt(s, key);
+        System.out.println("Encrypted Data: " + result);
+
+        System.out.println("Do you want to decrypt the data: Type (y/n):");
+        char c = sc.next().charAt(0);
+        if (c == 'Y') {
+            System.out.println("Enter the key:");
+            int dekey = sc.nextInt();
+            String decryptResult = decrypt(result, dekey);
+            System.out.println("Decrypted Data: " + decryptResult);
+        }
+    }
+
+    static String encrypt(String str, int key) {
+        String result = "";
+        char[] characters = str.toCharArray();
+        for (int i = 0; i < characters.length; i++) {
+            int ascii = Character.isUpperCase(characters[i]) ? 65 : 97;
+            int n = (int) characters[i];
+            n = (n - ascii + key) % 26;
+            n = n + ascii;
+            char c = (char) n;
+            result += c;
+        }
+        return result;
+    }
+
+    static String decrypt(String str, int key) {
+        String result = "";
+        char[] characters = str.toCharArray();
+        for (int i = 0; i < characters.length; i++) {
+            int ascii = Character.isUpperCase(characters[i]) ? 65 : 97;
+            int n = (int) characters[i];
+            n = (n - ascii - key + 26) % 26;
+            n = n + ascii;
+            char c = (char) n;
+            result += c;
+        }
+        return result;
+    }
+}
